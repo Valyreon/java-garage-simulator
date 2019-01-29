@@ -171,7 +171,7 @@ public class UserPartController implements Initializable {
     }
 
     public void handleAddButtonAction(ActionEvent actionEvent) {
-        if (garage.getAllVehicles().size() < garage.getNumberOfPlatforms() * 28)
+        if (garage.getNumberOfParkedVehicles() < garage.getNumberOfPlatforms() * 28)
             garage.enterNewVehicle();
     }
 

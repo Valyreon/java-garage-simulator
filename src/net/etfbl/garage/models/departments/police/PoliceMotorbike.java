@@ -7,6 +7,7 @@ import net.etfbl.garage.models.Motorbike;
 import net.etfbl.garage.models.Platform;
 import net.etfbl.garage.models.Vehicle;
 import net.etfbl.garage.models.reports.AccidentReport;
+import net.etfbl.garage.models.reports.WantedReport;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -124,6 +125,13 @@ public class PoliceMotorbike extends Motorbike implements Police {
             for (int i : checkColumns) {
                 Vehicle veh = platform.getGarage().getPlatform(platformNumber).getAt(row, i);
                 if (veh != null && wantedRegistrations.contains(veh.getRegistration())) {
+                    try {
+                        sleep(new Random().nextInt(2000) + 3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();//TODO
+                    }
+                    WantedReport report = new WantedReport(veh);
+                    report.saveReport();
                     veh.setLeavingTrue();
                     this.setLeavingTrue();
                 }

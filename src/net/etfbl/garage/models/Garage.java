@@ -4,7 +4,6 @@ import javafx.scene.control.TextArea;
 import net.etfbl.garage.application.UserGarageSimulator;
 import net.etfbl.garage.models.departments.firefighters.FirefighterVan;
 import net.etfbl.garage.models.departments.medical.MedicalCar;
-import net.etfbl.garage.models.departments.medical.MedicalVan;
 import net.etfbl.garage.models.departments.police.PoliceCar;
 import net.etfbl.garage.models.reports.ParkingBill;
 
@@ -34,6 +33,7 @@ public class Garage {
     private int selectedPlatform = 0;
 
     VehicleFactory factory = new VehicleFactory();
+    private int numberOfParked = 0;
 
     private final ExecutorService exec = Executors.newCachedThreadPool();
 
@@ -92,36 +92,6 @@ public class Garage {
         this.output.setLength(0);
         this.output.append(output);
     }
-
-    /*private Vehicle constructVehicle() {
-        Random randomNum = new Random();
-        constructedCars++;
-        int type = 1+randomNum.nextInt(3);
-        boolean isSpecial = Math.random() > 0.9;
-        if (isSpecial) {
-            if (type == 1) { //van
-                return new FirefighterVan("RandomVan" + constructedCars, "RandomChassis" + constructedCars,
-                        "RandomEngine" + constructedCars, "RandomRegistration" + constructedCars);
-            } else if (type == 2) {
-                return new PoliceCar("RandomCar" + constructedCars, "RandomChassis" + constructedCars,
-                        "RandomEngine" + constructedCars, "RandomRegistration" + constructedCars);
-            } else {
-                return new MedicalVan("RandomVan" + constructedCars, "RandomChassis" + constructedCars,
-                        "RandomEngine" + constructedCars, "RandomRegistration" + constructedCars);
-            }
-        } else {
-            if (type == 1) { //van
-                return new Motorbike("RandomMotorbike" + constructedCars, "RandomChassis" + constructedCars,
-                        "RandomEngine" + constructedCars, "RandomRegistration" + constructedCars);
-            } else if (type == 2) {
-                return new Van("RandomVan" + constructedCars, "RandomChassis" + constructedCars,
-                        "RandomEngine" + constructedCars, "RandomRegistration" + constructedCars);
-            } else {
-                return new Car("RandomCar" + constructedCars, "RandomChassis" + constructedCars,
-                        "RandomEngine" + constructedCars, "RandomRegistration" + constructedCars);
-            }
-        }
-    }*/
 
     public void startLeaving() {
         for(Platform p: platforms) {
@@ -265,5 +235,17 @@ public class Garage {
             for(Vehicle veh: p.getAllVehicles())
                 veh.notifyAll();
         }
+    }
+
+    public int getNumberOfParkedVehicles() {
+        return numberOfParked;
+    }
+
+    public void incNumberOfParked() {
+        numberOfParked++;
+    }
+
+    public void decNumberOfParked() {
+        numberOfParked--;
     }
 }

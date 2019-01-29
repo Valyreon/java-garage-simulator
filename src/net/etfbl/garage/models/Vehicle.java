@@ -149,8 +149,10 @@ public abstract class Vehicle extends Thread implements Serializable {
         leaving = true;
         parked = entering = false;
         notFinished = true;
-        if (Platform.isItParkingAt(row, column))
+        if (Platform.isItParkingAt(row, column)) {
             platform.decNumOfParked();
+            platform.getGarage().decNumberOfParked();
+        }
     }
 
     public void setEnteringTrue() {
@@ -167,6 +169,7 @@ public abstract class Vehicle extends Thread implements Serializable {
         parked = true;
         leaving = entering = false;
         platform.incNumOfParked();
+        platform.getGarage().incNumberOfParked();
     }
 
     public String getDepartmentString() {

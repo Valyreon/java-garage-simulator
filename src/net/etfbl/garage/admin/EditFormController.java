@@ -238,7 +238,7 @@ public class EditFormController implements Initializable {
         toEdit.setEngineNumber(engineField.getText());
         toEdit.setChassisNumber(chassisField.getText());
         toEdit.setRegistration(registrationField.getText());
-
+        toEdit.setPhoto(chosenPhoto);
         if (toEdit instanceof Van) {
             Van vanEdit = (Van)toEdit;
             vanEdit.setCarryWeight(Integer.valueOf(carryField.getText().equals("") ? "0" : carryField.getText()));
