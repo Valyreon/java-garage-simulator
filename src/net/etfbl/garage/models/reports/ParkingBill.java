@@ -15,7 +15,7 @@ public class ParkingBill {
         vehicleName = veh.getVehicleName();
         registration = veh.getRegistration();
         enterTime = veh.getEnteredTime();
-        long hours = (exitTime - enterTime) / 1000;
+        long hours = (exitTime - enterTime) / 100000; //for real hours should be 3600000
         if (hours <= 1) {
             price = 1;
         } else if (hours <= 3) {

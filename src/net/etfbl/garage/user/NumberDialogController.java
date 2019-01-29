@@ -27,7 +27,7 @@ public class NumberDialogController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
             numField.textProperty().addListener(
                     (observable, oldValue, newValue) -> {
-                        if (!newValue.matches("[0-9]*") || (!newValue.isEmpty() && Integer.valueOf(newValue) > 36)) {
+                        if (!newValue.matches("[0-9]*") || (!newValue.isEmpty() && Integer.valueOf(newValue) > 28)) {
                             ((StringProperty)observable).setValue(oldValue);
                         }
                     }
