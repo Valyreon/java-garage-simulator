@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" prefHeight="392.0" prefWidth="329.0"
+            xmlns="http://javafx.com/javafx/8" fx:controller="net.etfbl.garage.user.UserPartController">
+   <padding>
+       <Insets left="5.0" right="5.0" top="5.0"/>
+   </padding>
+    <children>
+        <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="289.0" prefWidth="227.0"
+              AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+            <children>
+                <TextArea fx:id="matrixOutput" editable="false" focusTraversable="false" mouseTransparent="true"
+                          prefHeight="289.0" prefWidth="217.0">
+                    <VBox.margin>
+                        <Insets bottom="5.0"/>
+                    </VBox.margin>
+                    <font>
+                        <Font name="Consolas Bold" size="19.0"/>
+                    </font>
+                </TextArea>
+                <HBox alignment="CENTER" prefHeight="36.0" prefWidth="227.0">
+                    <children>
+                        <Label text="Platform:">
+                            <HBox.margin>
+                                <Insets right="10.0"/>
+                            </HBox.margin>
+                        </Label>
+                        <ComboBox fx:id="platformCombo" prefWidth="50.0">
+                            <HBox.margin>
+                                <Insets right="10.0"/>
+                            </HBox.margin>
+                        </ComboBox>
+                        <Button fx:id="addButton" disable="true" mnemonicParsing="false" onAction="#handleAddButtonAction"
+                                prefHeight="25.0" prefWidth="191.0" text="Add new"/>
+                    </children>
+                </HBox>
+                <Button fx:id="startButton" mnemonicParsing="false" onAction="#handleStartButtonAction" prefHeight="30.0"
+                        prefWidth="318.0" text="Start simulation">
+                    <VBox.margin>
+                        <Insets top="10.0"/>
+                    </VBox.margin>
+                </Button>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

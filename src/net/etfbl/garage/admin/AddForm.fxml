@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" fx:id="anchorPane" maxHeight="440.0" maxWidth="300.0"
+            minHeight="200.0" minWidth="300.0" prefHeight="295.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8"
+            fx:controller="net.etfbl.garage.admin.AddFormController">
+    <children>
+        <GridPane fx:id="gridPane" hgap="10.0" prefHeight="254.0" prefWidth="300.0" AnchorPane.bottomAnchor="84.0"
+                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="10.0" prefWidth="106.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="315.0" minWidth="10.0" prefWidth="184.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="42.0" minHeight="42.0" prefHeight="42.0" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="42.0" minHeight="42.0" prefHeight="42.0" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="42.0" minHeight="42.0" prefHeight="42.0" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="42.0" minHeight="42.0" prefHeight="42.0" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="42.0" minHeight="42.0" prefHeight="42.0" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <padding>
+                <Insets top="5.0"/>
+            </padding>
+            <children>
+                <Label text="Name*: " GridPane.halignment="RIGHT"/>
+                <Label text="Chassis*: " GridPane.halignment="RIGHT" GridPane.rowIndex="1"/>
+                <Label text="Engine*: " GridPane.halignment="RIGHT" GridPane.rowIndex="2"/>
+                <Label text="Photo: " GridPane.halignment="RIGHT" GridPane.rowIndex="3"/>
+                <Label text="Registration*:" GridPane.halignment="RIGHT" GridPane.rowIndex="4"/>
+                <TextField fx:id="nameField" maxWidth="150.0" prefWidth="100.0" GridPane.columnIndex="1"/>
+                <TextField fx:id="chassisField" maxWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <TextField fx:id="engineField" maxWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <TextField fx:id="registrationField" maxWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                <Button fx:id="chooseButton" minHeight="30.0" minWidth="100.0" mnemonicParsing="false"
+                        onAction="#handleChooseButtonAction" text="Choose..." GridPane.columnIndex="1"
+                        GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                    <GridPane.margin>
+                        <Insets right="32.0"/>
+                    </GridPane.margin>
+                </Button>
+                <ComboBox fx:id="departmentCombo" prefWidth="150.0" promptText="None" GridPane.columnIndex="1"
+                          GridPane.rowIndex="5"/>
+                <Label text="Department:" GridPane.halignment="RIGHT" GridPane.rowIndex="5"/>
+            </children>
+        </GridPane>
+        <HBox fx:id="wantedHbox" alignment="CENTER" prefHeight="46.0" prefWidth="300.0" visible="false"
+              AnchorPane.topAnchor="283.0">
+            <padding>
+                <Insets left="11.0"/>
+            </padding>
+            <children>
+                <Button fx:id="wantedButton" minHeight="30.0" minWidth="100.0" mnemonicParsing="false"
+                        onAction="#handleWantedButtonAction" text="Wanted list..."/>
+            </children>
+        </HBox>
+        <HBox fx:id="buttonsHBox" alignment="CENTER" layoutY="348.0" prefHeight="50.0" prefWidth="300.0"
+              AnchorPane.topAnchor="245.0">
+            <padding>
+                <Insets left="11.0"/>
+            </padding>
+            <children>
+                <Button fx:id="addButton" alignment="CENTER" defaultButton="true" minHeight="30.0" minWidth="100.0"
+                        mnemonicParsing="false" onAction="#handleAddButtonAction" text="Add">
+                    <HBox.margin>
+                        <Insets right="15.0"/>
+                    </HBox.margin>
+                </Button>
+                <Button fx:id="cancelButton" alignment="CENTER" minHeight="30.0" minWidth="100.0" mnemonicParsing="false"
+                        onAction="#handleCancelButtonAction" text="Cancel">
+                    <HBox.margin>
+                        <Insets left="15.0"/>
+                    </HBox.margin>
+                </Button>
+            </children>
+        </HBox>
+        <GridPane fx:id="doorsGrid" alignment="CENTER" hgap="10.0" maxHeight="42.0" minHeight="42.0" minWidth="300.0"
+                  prefHeight="42.0" prefWidth="300.0" visible="false" AnchorPane.topAnchor="245.0">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="116.0" minWidth="10.0" prefWidth="106.0"/>
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="184.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="42.0" minHeight="42.0" prefHeight="42.0" valignment="CENTER" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <padding>
+                <Insets left="11.0"/>
+            </padding>
+            <children>
+                <TextField fx:id="doorsField" maxWidth="150.0" GridPane.columnIndex="1"/>
+                <Label fx:id="doorsLabel" text="Doors:"/>
+            </children>
+        </GridPane>
+        <GridPane fx:id="carryGrid" hgap="10.0" maxHeight="42.0" minHeight="42.0" minWidth="300.0" prefHeight="42.0"
+                  prefWidth="300.0" visible="false" AnchorPane.topAnchor="245.0">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="117.0" minWidth="10.0" prefWidth="106.0"/>
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="191.0" minWidth="10.0" prefWidth="184.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="42.0" minHeight="42.0" prefHeight="42.0" valignment="CENTER" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <padding>
+                <Insets left="11.0"/>
+            </padding>
+            <children>
+                <TextField fx:id="carryField" maxWidth="150.0" GridPane.columnIndex="1"/>
+                <Label fx:id="carryLabel" text="Carry weight:"/>
+            </children>
+        </GridPane>
+    </children>
+</AnchorPane>
