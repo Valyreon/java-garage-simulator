@@ -146,7 +146,7 @@ public class Platform {
                         try {
                             garage.getOutput().append(matrix[i][j].getSymbol()).append(" ");
                         } catch (NullPointerException e) {
-                            UserGarageSimulator.errorLogger.log(Level.INFO, "NullPointerException in update() method " +
+                            UserGarageSimulator.logError(Level.INFO, "NullPointerException in update() method " +
                                     "in Platform.java. Vehicle moved before print.");
                         }
                     }

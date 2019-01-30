@@ -17,9 +17,30 @@ import java.util.logging.*;
 
 public class UserGarageSimulator extends Application {
 
-    public static final List<List<Vehicle>> platformList = new ArrayList<>();
-    public final static Logger errorLogger = Logger.getLogger(UserGarageSimulator.class.getName());
-    public static int numberOfPlatforms = 5;
+    private static final List<List<Vehicle>> platformList = new ArrayList<>();
+    private static int numberOfPlatforms = 5;
+    private static boolean closePressed = false;
+
+    public static List<List<Vehicle>> getPlatformList() {
+        return platformList;
+    }
+
+    public static List<Vehicle> getPlatform(int i) {
+        return platformList.get(i);
+    }
+
+    public static int getNumberOfPlatforms() {
+        return numberOfPlatforms;
+    }
+
+    @Override
+    public void stop() {
+        closePressed = true;
+    }
+
+    public static boolean isClosePressed() {
+        return closePressed;
+    }
 
     public static void read() {
         boolean safeToRead = false;
@@ -33,9 +54,9 @@ public class UserGarageSimulator extends Application {
                     safeToRead = true;
                 }
             } catch (FileNotFoundException e) {
-                errorLogger.log(Level.INFO, "FileNotFoundException in method start() in class AdminGarageSimulator.java");
+                logError(Level.INFO,"FileNotFoundException in method start() in class UserGarageSimulator.java");
             } catch (IOException e) {
-                errorLogger.log(Level.INFO, "IOException in method start() in class AdminGarageSimulator.java");
+                logError(Level.INFO,"IOException in method start() in class UserGarageSimulator.java");
             }
         }
         FileInputStream fis = null;
@@ -55,15 +76,19 @@ public class UserGarageSimulator extends Application {
                 }
                 fis.close();
             } catch (FileNotFoundException e) {
-                errorLogger.log(Level.INFO, "FileNotFoundException in method read() in class AdminGarageSimulator.java");
+                logError(Level.INFO, "FileNotFoundException in method read() in class UserGarageSimulator.java");
             } catch (IOException e) {
-                errorLogger.log(Level.INFO, "IOException in method read() in class AdminGarageSimulator.java");
+                logError(Level.INFO, "IOException in method read() in class UserGarageSimulator.java");
             } catch (ClassNotFoundException x) {
-                errorLogger.log(Level.INFO, "ClassNotFoundException in method read() in class AdminGarageSimulator.java");
+                logError(Level.INFO, "ClassNotFoundException in method read() in class UserGarageSimulator.java");
             } catch (Exception e) {
-                errorLogger.log(Level.INFO, e.getMessage());
+                logError(Level.INFO, e.getMessage());
             } finally {
-
+                try {
+                    fis.close();
+                } catch(IOException e) {
+                    logError(Level.INFO, "IOException while closing inputstream in UserGarageSimulator.");
+                }
             }
         } else {
             for (int i = 0; i < numberOfPlatforms; i++) {
@@ -86,24 +111,14 @@ public class UserGarageSimulator extends Application {
             }
             fos.close();
         } catch (FileNotFoundException e) {
-            errorLogger.log(Level.INFO, "FileNotFoundException in method write() in class AdminGarageSimulator.java");
+            logError(Level.INFO, "FileNotFoundException in method write() in class UserGarageSimulator.java");
         } catch (IOException e) {
-            errorLogger.log(Level.INFO, "IOException in method write() in class AdminGarageSimulator.java");
+            logError(Level.INFO, "IOException in method write() in class UserGarageSimulator.java");
         }
     }
 
     @Override
     public void start(Stage stage) {
-        FileHandler fh;
-
-        try {
-            fh = new FileHandler("error.log", true);
-            errorLogger.addHandler(fh);
-            SimpleFormatter formatter = new SimpleFormatter();
-            fh.setFormatter(formatter);
-        } catch (IOException | SecurityException e) {
-            System.out.println(e.getMessage());
-        }
 
         stage.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
             @Override
@@ -113,7 +128,7 @@ public class UserGarageSimulator extends Application {
                     Stage stageDial = setUpDialogWindow(dloader, "Enter minimal ", stage.getScene().getWindow());
                     stageDial.show();
                 } catch (IOException e) {
-                    UserGarageSimulator.errorLogger.log(Level.INFO, "IOException while opening window for setting minimal " +
+                    logError(Level.INFO, "IOException while opening window for setting minimal " +
                             "number.");
                 }
             }
@@ -128,15 +143,12 @@ public class UserGarageSimulator extends Application {
             stage.setResizable(false);
             stage.show();
         } catch (IOException e) {
-            errorLogger.log(Level.INFO, "IOException in method start() while loading AdminPart.fxml");
+           logError(Level.INFO, "IOException in method start() while loading AdminPart.fxml");
         }
     }
 
     public static void finish() {
         write();
-        for (Handler i : errorLogger.getHandlers()) {
-            i.close();
-        }
     }
 
     private Stage setUpDialogWindow(FXMLLoader loader, String title, Window owner) throws IOException {
@@ -150,5 +162,22 @@ public class UserGarageSimulator extends Application {
         }
         stage.setResizable(false);
         return stage;
+    }
+
+    public static synchronized void logError(Level importance, String message) {
+        FileHandler fh;
+        Logger res = Logger.getLogger(UserGarageSimulator.class.getName());
+        try {
+            fh = new FileHandler("error.log", true);
+            res.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+        } catch (IOException | SecurityException e) {
+            System.out.println(e.getMessage());
+        }
+        res.log(importance, message);
+        for (Handler i : res.getHandlers()) {
+            i.close();
+        }
     }
 }

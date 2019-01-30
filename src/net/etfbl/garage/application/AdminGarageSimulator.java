@@ -15,11 +15,18 @@ import java.util.List;
 import java.util.logging.*;
 
 public class AdminGarageSimulator extends Application {
-    public static final List<ObservableList<Vehicle>> platformList = new ArrayList<>();
-    public final static Logger errorLogger = Logger.getLogger(AdminGarageSimulator.class.getName());
-    public static int numberOfPlatforms = 5;
+    private static final List<ObservableList<Vehicle>> platformList = new ArrayList<>();
+    private static int numberOfPlatforms = 5;
     private static boolean safeToRead;
     private static boolean finished;
+
+    public static List<ObservableList<Vehicle>> getPlatformList() {
+        return platformList;
+    }
+
+    public static int getNumberOfPlatforms() {
+        return numberOfPlatforms;
+    }
 
     static void read() {
         FileInputStream fis = null;
@@ -38,13 +45,13 @@ public class AdminGarageSimulator extends Application {
                 }
                 fis.close();
             } catch (FileNotFoundException e) {
-                errorLogger.log(Level.INFO, "FileNotFoundException in method read() in class AdminGarageSimulator.java");
+                logError(Level.INFO, "FileNotFoundException in method read() in class AdminGarageSimulator.java");
             } catch (IOException e) {
-                errorLogger.log(Level.INFO, "IOException in method read() in class AdminGarageSimulator.java");
+                logError(Level.INFO, "IOException in method read() in class AdminGarageSimulator.java");
             } catch (ClassNotFoundException x) {
-                errorLogger.log(Level.INFO, "ClassNotFoundException in method read() in class AdminGarageSimulator.java");
+                logError(Level.INFO, "ClassNotFoundException in method read() in class AdminGarageSimulator.java");
             } catch (Exception e) {
-                errorLogger.log(Level.INFO, e.getMessage());
+                logError(Level.INFO, e.getMessage());
             } finally {
 
             }
@@ -69,18 +76,15 @@ public class AdminGarageSimulator extends Application {
             }
             fos.close();
         } catch (FileNotFoundException e) {
-            errorLogger.log(Level.INFO, "FileNotFoundException in method write() in class AdminGarageSimulator.java");
+            logError(Level.INFO, "FileNotFoundException in method write() in class AdminGarageSimulator.java");
         } catch (IOException e) {
-            errorLogger.log(Level.INFO, "IOException in method write() in class AdminGarageSimulator.java");
+            logError(Level.INFO, "IOException in method write() in class AdminGarageSimulator.java");
         }
     }
 
     public static void finish() {
         if (!finished) {
             write();
-            for (Handler i : errorLogger.getHandlers()) {
-                i.close();
-            }
             finished = true;
         }
     }
@@ -97,9 +101,9 @@ public class AdminGarageSimulator extends Application {
                     safeToRead = true;
                 }
             } catch (FileNotFoundException e) {
-                errorLogger.log(Level.INFO, "FileNotFoundException in method start() in class AdminGarageSimulator.java");
+                logError(Level.INFO, "FileNotFoundException in method start() in class AdminGarageSimulator.java");
             } catch (IOException e) {
-                errorLogger.log(Level.INFO, "IOException in method start() in class AdminGarageSimulator.java");
+                logError(Level.INFO, "IOException in method start() in class AdminGarageSimulator.java");
             }
         }
         for (int i = 0; i < numberOfPlatforms; i++) {
@@ -112,27 +116,37 @@ public class AdminGarageSimulator extends Application {
             stage.sizeToScene();
             stage.setTitle("Garage Admin");
             loader.<AdminPartController>getController().getTable().setItems(platformList.get(0));
-
-            FileHandler fh;
-
-            try {
-                fh = new FileHandler("error.log", true);
-                errorLogger.addHandler(fh);
-                SimpleFormatter formatter = new SimpleFormatter();
-                fh.setFormatter(formatter);
-            } catch (IOException | SecurityException e) {
-                System.out.println(e.getMessage());
-            }
             read();
             stage.show();
         } catch (IOException e) {
-            errorLogger.log(Level.INFO, "IOException in method start() while loading AdminPart.fxml");
+            logError(Level.INFO, "IOException in method start() while loading AdminPart.fxml");
         }
     }
 
     @Override
     public void stop() {
         finish();
+    }
+
+    public static synchronized void logError(Level importance, String message) {
+        FileHandler fh;
+        Logger res = Logger.getLogger(AdminGarageSimulator.class.getName());
+        try {
+            fh = new FileHandler("error.log", true);
+            res.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+        } catch (IOException | SecurityException e) {
+            System.out.println(e.getMessage());
+        }
+        res.log(importance, message);
+        for (Handler i : res.getHandlers()) {
+            i.close();
+        }
+    }
+
+    public static boolean isFinished() {
+        return finished;
     }
 
 }

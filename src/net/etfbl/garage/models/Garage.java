@@ -18,8 +18,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 
-import static net.etfbl.garage.application.UserGarageSimulator.platformList;
-
 public class Garage {
     private final List<Vehicle> allVehicles = new ArrayList<>();
     private final List<Platform> platforms = new ArrayList<>();
@@ -130,8 +128,8 @@ public class Garage {
     }
 
     void read() {
-        for (int i = 0; i < platformList.size(); i++) {
-            randomDistribution(i, platformList.get(i));
+        for (int i = 0; i < UserGarageSimulator.getPlatformList().size(); i++) {
+            randomDistribution(i, UserGarageSimulator.getPlatformList().get(i));
         }
     }
 
@@ -149,13 +147,16 @@ public class Garage {
         allVehicles.add(veh);
 
         exec.execute(() -> {
+            if(UserGarageSimulator.isClosePressed())
+                exec.shutdownNow();
             while (!plat.isEmptyAt(1, 0)) {
                 try {
                     synchronized (plat.getAt(1, 0)) {
                         plat.getAt(1, 0).wait();
                     }
                 } catch (InterruptedException e) {
-                    //write to error log
+                    UserGarageSimulator.logError(Level.INFO, "Uuups. InterruptedException in enterNewVehicle() method " +
+                            "in Garage.java");
                 }
             }
             plat.setAt(1, 0, veh);
@@ -182,8 +183,7 @@ public class Garage {
         Vehicle[] array = new Vehicle[]{
                 new MedicalCar("Emergency Medical Car" + constructedCars++, "1ff0", "1880", "911"),
                 new FirefighterVan("Emergency Firefighter Truck" + constructedCars++, "1ff0", "1880", "911"),
-                new PoliceCar("Emergency Police Car" + constructedCars++, "1ff0", "1880", "911", null, 4, new File("C:\\Users" +
-                        "\\Lamora\\Desktop\\wanted.txt"))
+                new PoliceCar("Emergency Police Car" + constructedCars++, "1ff0", "1880", "911", null, 4, new File("C:\\Users\\luka.budrak\\Desktop\\wanted.txt"))
         };
         array[0].setPlatform(plat);
         array[1].setPlatform(plat);
@@ -197,13 +197,13 @@ public class Garage {
             plat.getAllVehicles().add(iVeh);
             allVehicles.add(iVeh);
             exec.execute(() -> {
-                while (!plat.isEmptyAt(1, 0)) {
+                while (!plat.isEmptyAt(1, 0) && !Vehicle.stop) {
                     try {
                         synchronized (plat.getAt(1, 0)) {
                             plat.getAt(1, 0).wait();
                         }
                     } catch (InterruptedException e) {
-                        UserGarageSimulator.errorLogger.log(Level.INFO, "Uuups. InterruptedException in callEmergency() method " +
+                        UserGarageSimulator.logError(Level.INFO, "Uuups. InterruptedException in callEmergency() method " +
                                 "in Garage.java");
                     }
                 }
@@ -221,7 +221,7 @@ public class Garage {
             }
             writer.close();
         } catch (FileNotFoundException e) {
-            UserGarageSimulator.errorLogger.log(Level.INFO, "FileNotFoundException in writeBills() method " +
+            UserGarageSimulator.logError(Level.INFO, "FileNotFoundException in writeBills() method " +
                     "in Garage.java");
         }
     }

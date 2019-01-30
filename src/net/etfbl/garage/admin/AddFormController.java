@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import net.etfbl.garage.application.AdminGarageSimulator;
 import net.etfbl.garage.models.Car;
 import net.etfbl.garage.models.Motorbike;
 import net.etfbl.garage.models.Van;
@@ -27,8 +28,6 @@ import net.etfbl.garage.models.departments.police.PoliceVan;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static net.etfbl.garage.application.AdminGarageSimulator.platformList;
 
 public class AddFormController implements Initializable {
 
@@ -250,7 +249,7 @@ public class AddFormController implements Initializable {
             }
         }
         if (toAdd != null) {
-            platformList.get(platformNumber).add(toAdd);
+            AdminGarageSimulator.getPlatformList().get(platformNumber).add(toAdd);
         }
         stage.close();
     }

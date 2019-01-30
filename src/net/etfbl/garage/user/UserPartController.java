@@ -51,14 +51,14 @@ public class UserPartController implements Initializable {
     }
 
     public static void initGarage(int minimum) {
-        garage = new Garage(platformList, numberOfPlatforms, minimum);
+        garage = new Garage(UserGarageSimulator.getPlatformList(), UserGarageSimulator.getNumberOfPlatforms(), minimum);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         ArrayList<String> helplist = new ArrayList<>();
-        for (int i = 0; i < numberOfPlatforms; i++) {
+        for (int i = 0; i < UserGarageSimulator.getNumberOfPlatforms() ; i++) {
             helplist.add(Integer.toString(i));
         }
         platformCombo.setItems(FXCollections.observableArrayList(helplist));
@@ -91,12 +91,12 @@ public class UserPartController implements Initializable {
             garage.startLeaving();
             addButton.setDisable(false);
             executor.execute(() -> {
-                while (notFinished) {
+                while (notFinished  && !UserGarageSimulator.isClosePressed()) {
                     garage.refreshTextArea(matrixOutput);
                     try {
                         Thread.sleep(25);
                     } catch (InterruptedException e) {
-                        System.out.println("Someone interrupted me. It's okay.");
+                        System.out.println("Someone interrupted me. Probably when program was exiting. That is expected.");
                     }
                 }
                 garage.refreshTextArea(matrixOutput);
@@ -108,7 +108,7 @@ public class UserPartController implements Initializable {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (garage.isFinished()) {
+                    if (garage.isFinished() || UserGarageSimulator.isClosePressed()) {
                         notFinished = false;
                     }
                 }
@@ -121,11 +121,11 @@ public class UserPartController implements Initializable {
                 garage.getExecutor().shutdownNow();
                 executor.shutdownNow();
                 garage.refreshTextArea(matrixOutput);
-                for(int i=0; i<platformList.size() ; i++) {
-                    platformList.get(i).clear();
+                for(int i=0; i<UserGarageSimulator.getPlatformList().size() ; i++) {
+                    UserGarageSimulator.getPlatformList().get(i).clear();
                     for (Vehicle veh : garage.getPlatform(i).getAllVehicles()) {
                         if (net.etfbl.garage.models.Platform.isItParkingAt(veh.getRow(), veh.getColumn()))
-                            platformList.get(i).add(veh);
+                            UserGarageSimulator.getPlatformList().get(i).add(veh);
                     }
                 }
                 UserGarageSimulator.finish();
@@ -166,7 +166,7 @@ public class UserPartController implements Initializable {
                 writer.close();
             }
         } catch (IOException e) {
-            errorLogger.log(Level.INFO, "Exception while generating CSV file.");
+            UserGarageSimulator.logError(Level.INFO, "Exception while generating CSV file.");
         }
     }
 
@@ -174,6 +174,4 @@ public class UserPartController implements Initializable {
         if (garage.getNumberOfParkedVehicles() < garage.getNumberOfPlatforms() * 28)
             garage.enterNewVehicle();
     }
-
-
 }

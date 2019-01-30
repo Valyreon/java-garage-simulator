@@ -1,6 +1,7 @@
 package net.etfbl.garage.models;
 
 import javafx.beans.property.SimpleStringProperty;
+import net.etfbl.garage.application.UserGarageSimulator;
 import net.etfbl.garage.models.departments.firefighters.Firefighter;
 import net.etfbl.garage.models.departments.medical.Medical;
 import net.etfbl.garage.models.departments.police.Police;
@@ -9,12 +10,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Random;
+import java.util.logging.Level;
 
 import static net.etfbl.garage.models.Direction.*;
 
 public abstract class Vehicle extends Thread implements Serializable {
     static final long serialVersionUID = 42L;
-    protected transient static boolean stop = false;
+    public transient static boolean stop = false;
     protected final int speed = (new Random().nextInt(500) + 750) / 2;
     protected transient SimpleStringProperty vehicleName;
     protected transient SimpleStringProperty chassisNumber;
@@ -192,14 +194,16 @@ public abstract class Vehicle extends Thread implements Serializable {
             try {
                 sleep(2000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                UserGarageSimulator.logError(Level.INFO, "Vehicle has been interrupted at ("+row+", "+column+", "+platformNumber+").");
             }
         } else if (entering) {
             if (!parked && row == 1 && platform.getNumberOfParked() >= 28) {
                 if (column != 7) {
                     this.move(RIGHT);
-                } else {
+                } else if(platformNumber < platform.getGarage().getNumberOfPlatforms()-1) {
                     this.moveToPlatformAbove();
+                } else {
+                    this.setLeavingTrue();
                 }
             } else if (Platform.isItEnteringLane(row, column)) {
                 if (row >= 2 && (column == 1 || column == 6)) {
@@ -360,7 +364,7 @@ public abstract class Vehicle extends Thread implements Serializable {
         try {
             sleep(speed);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            UserGarageSimulator.logError(Level.INFO, "Vehicle has been interrupted at ("+row+", "+column+", "+platformNumber+").");
         }
     }
 
@@ -447,7 +451,7 @@ public abstract class Vehicle extends Thread implements Serializable {
                 try {
                     sleep(2000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    UserGarageSimulator.logError(Level.INFO, "Vehicle has been interrupted at ("+row+", "+column+", "+platformNumber+").");
                 }
             }
         }
@@ -488,7 +492,7 @@ public abstract class Vehicle extends Thread implements Serializable {
                     veh.wait();
                 }
             } catch (InterruptedException e) {
-                //write to error log
+                UserGarageSimulator.logError(Level.INFO, "Vehicle has been interrupted at ("+row+", "+column+", "+platformNumber+").");
             }
         }
         platform.setAt(row, column, null);

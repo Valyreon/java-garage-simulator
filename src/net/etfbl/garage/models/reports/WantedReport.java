@@ -14,11 +14,13 @@ public class WantedReport implements Serializable {
     private long time = System.currentTimeMillis();
 
     public WantedReport(Vehicle first) {
-        try {
-            vehiclePhoto = ImageIO.read(first.getPhoto());
-        } catch(IOException e) {
-            UserGarageSimulator.errorLogger.log(Level.INFO, "IOException while reading photo during the creation of " +
-                    "WantedReport.");
+        if(first.getPhoto()!=null) {
+            try {
+                vehiclePhoto = ImageIO.read(first.getPhoto());
+            } catch (IOException e) {
+                UserGarageSimulator.logError(Level.INFO, "IOException while reading photo during the creation of " +
+                        "WantedReport.");
+            }
         }
         vehicleRegistration = first.getRegistration();
     }
@@ -34,10 +36,10 @@ public class WantedReport implements Serializable {
             oos.writeObject(this);
             fos.close();
         } catch (FileNotFoundException e) {
-            UserGarageSimulator.errorLogger.log(Level.INFO, "FileNotFoundException in saveReport() method " +
+            UserGarageSimulator.logError(Level.INFO, "FileNotFoundException in saveReport() method " +
                     "in WantedReport.java");
         } catch (IOException e) {
-            UserGarageSimulator.errorLogger.log(Level.INFO, "IOException in saveReport() method " +
+            UserGarageSimulator.logError(Level.INFO, "IOException in saveReport() method " +
                     "in WantedReport.java");
         }
     }

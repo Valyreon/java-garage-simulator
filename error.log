@@ -20,3 +20,27 @@ Jan 29, 2019 10:15:56 PM net.etfbl.garage.models.reports.AccidentReport <init>
 INFO: Exception while reading first photo during the creation of Report.
 Jan 29, 2019 10:15:56 PM net.etfbl.garage.models.reports.AccidentReport <init>
 INFO: Exception while reading second photo during the creation of Report.
+Jan 30, 2019 8:53:23 AM net.etfbl.garage.application.UserGarageSimulator logError
+INFO: null
+Jan 30, 2019 8:55:08 AM net.etfbl.garage.application.AdminGarageSimulator logError
+INFO: null
+Jan 30, 2019 9:50:59 AM net.etfbl.garage.application.UserGarageSimulator logError
+INFO: Uuups. InterruptedException in callEmergency() method in Garage.java
+Jan 30, 2019 9:50:59 AM net.etfbl.garage.application.UserGarageSimulator logError
+INFO: Uuups. InterruptedException in callEmergency() method in Garage.java
+Jan 30, 2019 10:01:55 AM net.etfbl.garage.application.UserGarageSimulator logError
+INFO: Uuups. InterruptedException in enterNewVehicle() method in Garage.java
+Jan 30, 2019 10:01:55 AM net.etfbl.garage.application.UserGarageSimulator logError
+INFO: Uuups. InterruptedException in enterNewVehicle() method in Garage.java
+Jan 30, 2019 10:01:55 AM net.etfbl.garage.application.UserGarageSimulator logError
+INFO: Uuups. InterruptedException in enterNewVehicle() method in Garage.java
+Jan 30, 2019 10:01:55 AM net.etfbl.garage.application.UserGarageSimulator logError
+INFO: Uuups. InterruptedException in enterNewVehicle() method in Garage.java
+Jan 30, 2019 10:01:55 AM net.etfbl.garage.application.UserGarageSimulator logError
+INFO: Uuups. InterruptedException in enterNewVehicle() method in Garage.java
+Jan 30, 2019 10:01:55 AM net.etfbl.garage.application.UserGarageSimulator logError
+INFO: Uuups. InterruptedException in enterNewVehicle() method in Garage.java
+Jan 30, 2019 10:01:55 AM net.etfbl.garage.application.UserGarageSimulator logError
+INFO: Uuups. InterruptedException in enterNewVehicle() method in Garage.java
+Jan 30, 2019 10:01:55 AM net.etfbl.garage.application.UserGarageSimulator logError
+INFO: Uuups. InterruptedException in enterNewVehicle() method in Garage.java

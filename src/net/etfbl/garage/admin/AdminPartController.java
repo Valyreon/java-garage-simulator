@@ -61,7 +61,7 @@ public class AdminPartController implements Initializable {
                 "Car","Motorbike","Van"
         ));
         ArrayList<String> helplist = new ArrayList<>();
-        for (int i = 0; i < AdminGarageSimulator.numberOfPlatforms; i++) {
+        for (int i = 0; i < AdminGarageSimulator.getNumberOfPlatforms(); i++) {
             helplist.add(Integer.toString(i));
         }
         platformChoose.setItems(FXCollections.observableArrayList(helplist));
@@ -70,7 +70,7 @@ public class AdminPartController implements Initializable {
         editButton.disableProperty().bind(Bindings.isEmpty(table.getSelectionModel().getSelectedItems()));
         deleteButton.disableProperty().bind(Bindings.isEmpty(table.getSelectionModel().getSelectedItems()));
 
-        platformChoose.valueProperty().addListener((ov, old, newValue) -> table.setItems(AdminGarageSimulator.platformList.get(Integer.valueOf(newValue))));
+        platformChoose.valueProperty().addListener((ov, old, newValue) -> table.setItems(AdminGarageSimulator.getPlatformList().get(Integer.valueOf(newValue))));
     }
 
     @FXML
@@ -84,7 +84,7 @@ public class AdminPartController implements Initializable {
             loader.<AddFormController>getController().setType(typeCombo.getValue(), stage, Integer.valueOf(platformChoose.getValue()));
             stage.show();
         } catch(IOException e) {
-            AdminGarageSimulator.errorLogger.log(Level.INFO, "User opened file dialog but did not choose file.");
+            AdminGarageSimulator.logError(Level.INFO, "User opened file dialog but did not choose file.");
         }
     }
 
@@ -96,7 +96,7 @@ public class AdminPartController implements Initializable {
             loader.<EditFormController>getController().setFields(table.getSelectionModel().getSelectedItem(), stage);
             stage.show();
         } catch (IOException e) {
-            AdminGarageSimulator.errorLogger.log(Level.INFO, "IOException while handling action on Edit Button in " +
+            AdminGarageSimulator.logError(Level.INFO, "IOException while handling action on Edit Button in " +
                     "AdminPartController.class");
         }
     }
@@ -105,7 +105,7 @@ public class AdminPartController implements Initializable {
     private void handleDeleteButtonAction() {
         Vehicle item = table.getSelectionModel().getSelectedItem();
         if(item != null) {
-            AdminGarageSimulator.platformList.get(Integer.valueOf(platformChoose.getValue())).remove(item);
+            AdminGarageSimulator.getPlatformList().get(Integer.valueOf(platformChoose.getValue())).remove(item);
         }
     }
 

@@ -179,7 +179,8 @@ public class EditFormController implements Initializable {
                     wantedButton.setText(polVan.getWantedList().getName());
                 }
             } else if (van instanceof Medical || van instanceof Firefighter) {
-                anchorPane.setPrefHeight(anchorPane.getPrefHeight() + carryGrid.getPrefHeight());
+                anchorPane.setMaxHeight(anchorPane.getPrefHeight() + carryGrid.getPrefHeight());
+                AnchorPane.setTopAnchor(buttonsHBox, AnchorPane.getTopAnchor(buttonsHBox)-30);
             }
         } else if(veh instanceof Car) {
             Car car = (Car)veh;
@@ -199,7 +200,8 @@ public class EditFormController implements Initializable {
                 AnchorPane.setTopAnchor(wantedHbox, AnchorPane.getTopAnchor(wantedHbox)-30); // ADDED
                 AnchorPane.setTopAnchor(buttonsHBox, AnchorPane.getTopAnchor(buttonsHBox)-30); //ADDED
             } else if (car instanceof Medical || car instanceof Firefighter) {
-                anchorPane.setPrefHeight(anchorPane.getPrefHeight() + doorsGrid.getPrefHeight());
+                anchorPane.setMaxHeight(anchorPane.getPrefHeight() + doorsGrid.getPrefHeight());
+                AnchorPane.setTopAnchor(buttonsHBox, AnchorPane.getTopAnchor(buttonsHBox)-30);
             }
         }
         departmentCombo.setDisable(true);

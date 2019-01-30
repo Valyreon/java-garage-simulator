@@ -18,7 +18,7 @@ public class AccidentReport implements Serializable {
             try {
                 firstInvolvedPhoto = ImageIO.read(first.getPhoto());
             } catch (Exception e) {
-                UserGarageSimulator.errorLogger.log(Level.INFO, "Exception while reading first photo during the creation of " +
+                UserGarageSimulator.logError(Level.INFO, "Exception while reading first photo during the creation of " +
                         "Report.");
             }
         }
@@ -26,7 +26,7 @@ public class AccidentReport implements Serializable {
             try {
                 secondInvolvedPhoto = ImageIO.read(second.getPhoto());
             } catch (Exception e) {
-                UserGarageSimulator.errorLogger.log(Level.INFO, "Exception while reading second photo during the creation of " +
+                UserGarageSimulator.logError(Level.INFO, "Exception while reading second photo during the creation of " +
                         "Report.");
             }
         }
@@ -45,10 +45,10 @@ public class AccidentReport implements Serializable {
             oos.writeObject(this);
             fos.close();
         } catch (FileNotFoundException e) {
-            UserGarageSimulator.errorLogger.log(Level.INFO, "FileNotFoundException in saveReport() method " +
+            UserGarageSimulator.logError(Level.INFO, "FileNotFoundException in saveReport() method " +
                     "in AccidentReport.java");
         } catch (IOException e) {
-            UserGarageSimulator.errorLogger.log(Level.INFO, "IOException in saveReport() method " +
+            UserGarageSimulator.logError(Level.INFO, "IOException in saveReport() method " +
                     "in AccidentReport.java");
         }
     }

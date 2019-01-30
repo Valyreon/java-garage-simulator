@@ -42,10 +42,10 @@ public class PoliceCar extends Car implements Police {
                     wantedRegistrations.add(line);
                 }
             } catch (FileNotFoundException e) {
-                UserGarageSimulator.errorLogger.log(Level.INFO, "FileNotFoundException in method readWantedFile() in class " +
+                UserGarageSimulator.logError(Level.INFO, "FileNotFoundException in method readWantedFile() in class " +
                         "PoliceCar.java");
             } catch (IOException e) {
-                UserGarageSimulator.errorLogger.log(Level.INFO, "IOException in method readWantedFile() in class PoliceCar.java");
+                UserGarageSimulator.logError(Level.INFO, "IOException in method readWantedFile() in class PoliceCar.java");
             } finally {
                 if (reader != null) {
                     try {
@@ -105,7 +105,7 @@ public class PoliceCar extends Car implements Police {
             try {
                 sleep(new Random().nextInt(7000) + 3000);
             } catch (InterruptedException e) {
-                e.printStackTrace();//TODO
+                UserGarageSimulator.logError(Level.INFO, "Vehicle has been interrupted at ("+row+", "+column+", "+platformNumber+").");
             }
             /************/
             AccidentReport report = new AccidentReport(target, otherVehicleInvolved);
@@ -198,11 +198,13 @@ public class PoliceCar extends Car implements Police {
                     try {
                         sleep(new Random().nextInt(2000) + 3000);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();//TODO
+                        UserGarageSimulator.logError(Level.INFO, "Vehicle has been interrupted at ("+row+", "+column+", "+platformNumber+").");
                     }
                     WantedReport report = new WantedReport(veh);
                     report.saveReport();
                     veh.setLeavingTrue();
+                    if(!veh.isAlive())
+                        veh.start();
                     this.setLeavingTrue();
                 }
             }
