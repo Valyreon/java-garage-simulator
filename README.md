@@ -29,3 +29,8 @@ After all vehicles are set up, and simulation is starting, a matrix is generated
 Garage should also keep records of times when the vehicles entered and left the garage and bill them for the time spent parked. Police, medical and firefighter vehicles are not billed. Bills should be written to a text file somewhere in the system.
 
 Simulation ends when all vehicles leaving the garage have left it and all the added cars are parked. Garage state is then again serialized in *garage.ser* file.
+### Tools
+
+For the development of this project, IntelliJ Community was as IDE. Java 8 was used for compiling and running the application. GUI was designed using JavaFX.
+
+### Screenshots
