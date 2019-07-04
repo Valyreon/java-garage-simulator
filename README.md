@@ -3,7 +3,7 @@
 ### Purpose
 This project was made as a part of a course in Java at my University. It demonstrates my knowledge in Threads, UI designing and general Java and OOP programming.
 
-### Requirements Description
+### Requirements description
 For this project it was neccessary to make a Garage simulator. Application should consist of two parts: User part and Admin part. Administrator part should be a GUI application where an admin can add and park arbitrary number of vehicles in the garage, based on which the current state of the garage is generated. The garage can have **n** number of platforms where every platform has the following shape:
 
 ![Image of garage platform matrix](https://i.ibb.co/yVyvdTn/garage.png "Garage Matrix")
@@ -29,6 +29,13 @@ After all vehicles are set up, and simulation is starting, a matrix is generated
 Garage should also keep records of times when the vehicles entered and left the garage and bill them for the time spent parked. Police, medical and firefighter vehicles are not billed. Bills should be written to a text file somewhere in the system.
 
 Simulation ends when all vehicles leaving the garage have left it and all the added cars are parked. Garage state is then again serialized in *garage.ser* file.
+
+### Implementation details
+
+Every vehicle in the simulation is a separate thread with algorithms for movement through the matrices representing the platforms of the garage. Platforms are implemented as 8x10 *Vehicle* class matrices, using polymorphism. Every type of vehicle has to implement the abstract *Vehicle* class. When a vehicle (thread) needs to move, it looks at the spot in the matrix it needs to go to, and if there is a car there, then it *waits* for it and there is a chance for collision. Each time a vehicle successfully moves it invokes *notifyAll()* method.
+
+Moving of public department vehicles when the emergeny rotation is on is implemented on separate matrices, one additional matrix for every platform. When drawing the matrix in the designated text area, application first checks if there are vehicles in specified spot in the emergency matrix, and if there are, it draws their symbol, so i looks like that cars are overpassing other cars.
+
 ### Tools
 
 For the development of this project, IntelliJ Community was as IDE. Java 8 was used for compiling and running the application. GUI was designed using JavaFX.
