@@ -34,3 +34,7 @@ Simulation ends when all vehicles leaving the garage have left it and all the ad
 For the development of this project, IntelliJ Community was as IDE. Java 8 was used for compiling and running the application. GUI was designed using JavaFX.
 
 ### Screenshots
+
+![Image of admin part of the app](https://raw.githubusercontent.com/Valyreon/java-garage-simulator/master/adminpart.PNG?token=AEJXIZKCGM33POERVVZPLG25DXCAY)
+![Image of add vehicle form](https://raw.githubusercontent.com/Valyreon/java-garage-simulator/master/addcar.PNG?token=AEJXIZNSNJ7OGH4MWK5RAHC5DXCAS)
+![Image of user part of the app](https://raw.githubusercontent.com/Valyreon/java-garage-simulator/master/clientpart.PNG?token=AEJXIZMKOTNBUCRC4MT7HPC5DXCA6)
